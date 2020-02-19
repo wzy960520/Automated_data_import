@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+               
+               $("#x").click(function(){
+                var file_name =  new Array() 
+                $.each($('input:checkbox:checked'),function(){
+                    file_name.push($(this).val())
+                });
+                if (file_name.length<3)
+                {
+                    alert('选择处理数据少于3个')
+                }
+                else
+                { $.ajax({
+                    
+                    url:window.location.href+'import', //请求的url地址
+                    dataType:"json", //返回格式为json
+                    async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                    data:{"file_name_1":file_name[0],"file_name_2":file_name[1],"file_name_3":file_name[2]}, //参数值
+                    type:"GET", //请求方式
+                    success:function(req){
+                        alert('程序后台开始处理');
+                    },
+                });}
+               });	
+                
+               		  			  				  				  	
+        });
+       
+    </script>
+
+    <style>
+        .disabled {
+            pointer-events: none;
+                }
+
+    </style>
+
+    
+    <title>
+
+
+    </title>
+</head>
+<body>
+    <div style="width:100%;text-align:center">
+    <form method="post" action="form/">
+    
+
+    {% for i in file_name%}
+    <div class="form-group">
+        <input type="checkbox" name="boxes"  value={{i}}/>{{ i }}
+    </div>
+    {% endfor %}
+    <input type="submit" value="下载审核"/>
+    <input type="button" id= 'x' value="审核通过"/>
+</form>
+</div>
+</body>
+</html>
